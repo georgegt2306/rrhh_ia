@@ -178,7 +178,8 @@ ORDER BY per.numero_identidad DESC;
 ---
 
 ## ✅ Resultado
-Una fila por colaborador con estado TIENE / NO TIENE para cada documento.
+Una fila por colaborador si tiene la ruta o no para cada documento.
+<img width="653" height="79" alt="image" src="https://github.com/user-attachments/assets/63252a6c-6fd4-4fee-8d33-fdc5f6d3dd19" />
 
 ---
 
