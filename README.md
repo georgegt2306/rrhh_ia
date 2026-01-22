@@ -43,7 +43,15 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQ
     "posicion": 1,
     "usuarioId": 8431,
     "valor": 10.0
-  }
+  },
+  {
+    "apellido": "Barreto Moncayo",
+    "cedula": "0942234295",
+    "nombre": "Miguel Angel",
+    "posicion": 1,
+    "usuarioId": 3917,
+    "valor": 10.0
+  },
 ]
 ```
 
