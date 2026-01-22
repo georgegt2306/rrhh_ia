@@ -20,6 +20,9 @@ Este documento describe el flujo de integración de información de agentes y co
 ### Endpoint
 POST http://172.18.1.3:43080/sgi.api.in/ws/usuario/ranking-mensual
 
+### BEARER TOKEN
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2ODU2NDYyMzAsImV4cCI6MTcxNzE4MjIzMCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.Z1_OZGsnPUT3_7IsaaELFR9Xq_9VvncYZlCdw8_j-vw
+
 ### Body
 ```json
 {
@@ -52,7 +55,7 @@ POST http://172.18.1.3:43080/sgi.api.in/ws/usuario/ranking-mensual
 ```sql
 SELECT user_id
 FROM rrhh_aspirante_postulantes_katuk
-WHERE numero_identificacion = '0942097601';
+WHERE numero_identificacion = '<USER_ID>';
 ```
 
 ### Obtener puntajes
@@ -105,20 +108,71 @@ POST https://apps.iesse.ec/iesse/api/listarSecuenciaporDocumento.php
 
 ### Query SQL
 ```sql
-SELECT 
+SELECT
     per.numero_identidad,
     per.nombre_primero || ' ' || per.nombre_segundo || ' ' ||
     per.apellido_primero || ' ' || per.apellido_segundo AS nombres,
 
-    MAX(CASE WHEN cfg_arch.id = 95  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Hoja de vida",
-    MAX(CASE WHEN cfg_arch.id = 101 THEN 'TIENE' ELSE 'NO TIENE' END) AS "Antecedentes penales",
-    MAX(CASE WHEN cfg_arch.id = 97  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Cédula de identidad",
-    MAX(CASE WHEN cfg_arch.id = 98  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Certificado de votación",
-    MAX(CASE WHEN cfg_arch.id = 99  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Certificado Laboral",
-    MAX(CASE WHEN cfg_arch.id = 36  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Título Bachiller",
-    MAX(CASE WHEN cfg_arch.id = 21  THEN 'TIENE' ELSE 'NO TIENE' END) AS "Certificado Agente de Seguridad"
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 95 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Hoja de Vida",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 101 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Antecedentes Penales",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 97 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Cédula",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 98 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Certificado de Votación",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 99 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Certificado Laboral",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 36 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Título de Bachiller",
+
+    COALESCE(
+        MAX(CASE WHEN cfg_arch.id = 21 THEN rrhh_ar.server_path || rrhh_ar.filename END),
+        'NO TIENE'
+    ) AS "Certificado de curso"
+
 FROM personas per
-...
+JOIN persona_tiempo_laborado ptl
+    ON ptl.persona_id = per.id
+    AND ptl.estado = 'A'
+    AND ptl.empresa_id = 1
+
+LEFT JOIN rrhh_archivos rrhh_ar
+    ON rrhh_ar.persona_tiempo_laborado_id = ptl.id
+    AND rrhh_ar.estado = 'A'
+
+LEFT JOIN cfg_tipos_archivos cfg_arch
+    ON cfg_arch.id = rrhh_ar.tipo_archivo_id
+    AND cfg_arch.id IN (95,101,97,98,99,36,21)
+
+WHERE ptl.id IN (7324)
+
+GROUP BY
+    per.numero_identidad,
+    per.nombre_primero,
+    per.nombre_segundo,
+    per.apellido_primero,
+    per.apellido_segundo
+
+ORDER BY per.numero_identidad DESC;
+
 ```
 
 ---
