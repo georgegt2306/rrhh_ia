@@ -59,11 +59,11 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQ
 
 ## 2️⃣ Consulta de puntajes – Katuk
 
-### Obtener user_id por cédula
+### Obtener user_id por número de identidad
 ```sql
 SELECT user_id
 FROM rrhh_aspirante_postulantes_katuk
-WHERE numero_identificacion = '<USER_ID>';
+WHERE numero_identificacion = '<NUMERO_IDENTIDAD>';
 ```
 
 ### Obtener puntajes
