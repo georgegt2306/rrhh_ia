@@ -1,6 +1,23 @@
-# 📘 Integración RRHH – Ranking, Puntajes, Pruebas IESSE y Validación Documental
+# 📘 Integración RRHH – Ranking, Evaluaciones y Validación Documental
 
-Este documento describe el flujo de integración de información de agentes y colaboradores, combinando ranking mensual, puntajes, pruebas externas y validación de archivos obligatorios de RRHH.
+Este repositorio documenta el **flujo de integración de información de agentes y colaboradores**, combinando datos de desempeño, evaluaciones internas y externas, y validación documental de RRHH.
+
+El objetivo principal es **identificar patrones comunes de alto desempeño** en los agentes mejor posicionados y utilizar dicha información como **base objetiva para la selección, filtrado y evaluación de nuevos ingresos**.
+
+---
+
+## 🎯 Objetivo del flujo
+
+A partir de la información de los **10 mejores agentes del ranking mensual**, el flujo permite:
+
+- Analizar qué características comparten los agentes de mejor desempeño  
+- Identificar cualidades mínimas necesarias para un buen agente  
+- Validar cumplimiento documental obligatorio  
+- Evaluar resultados en pruebas y puntajes internos  
+- Establecer un **porcentaje mínimo de aceptación** para nuevos agentes  
+
+Este enfoque permite pasar de una evaluación subjetiva a una **toma de decisiones basada en datos históricos reales**.
+
 
 ---
 
@@ -191,4 +208,4 @@ Una fila por colaborador si tiene la ruta o no para cada documento.
 
 ---
 
-📌 Última actualización: 2025
+📌 Última actualización: 2026
